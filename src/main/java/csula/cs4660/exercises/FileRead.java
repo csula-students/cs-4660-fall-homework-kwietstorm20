@@ -1,40 +1,41 @@
 package csula.cs4660.exercises;
 
-import com.google.common.collect.Lists;
-
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Stream;
+import java.io.FileReader;
 
 /**
  * Introduction Java exercise to read file
  */
 public class FileRead {
     private int[][] numbers;
+    private static final int ROWS = 5;
+    private static final int COLUMNS = 8;
     /**
      * Read the file and store the content to 2d array of int
      * @param file read file
      */
     public FileRead(File file) {
         // TODO: read the file content and store content into numbers
-        List<List<Integer>> listOfNumbers = Lists.newArrayList();
-        try (Stream<String> stream = Files.lines(file.toPath())) {
-            stream.forEach(line -> {
-                List<Integer> lineNumbers = Lists.newArrayList();
-                for (String token: line.split(" ")) {
-                    lineNumbers.add(Integer.parseInt(token));
+        numbers = new int[ROWS][COLUMNS];
+        try{
+            FileReader fr = new FileReader(file);
+            BufferedReader buffer = new BufferedReader(fr);
+
+            String line = null;
+            int row = 0;
+            while((line = buffer.readLine()) != null){
+                String[] values = line.split(" ");
+                for (int i = 0; i < values.length; i++) {
+                    numbers[row][i] = Integer.parseInt(values[i]);
                 }
-                System.out.println(line);
-                listOfNumbers.add(lineNumbers);
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
+                row++;
+            }
+
         }
-        numbers = converList(listOfNumbers);
+        catch (Exception e){
+            System.err.println("you fukked it");
+        }
     }
 
     /**
@@ -45,42 +46,45 @@ public class FileRead {
      * lineNumber starts with 0 (programming friendly!)
      */
     public int mean(int lineNumber) {
-        return sum(lineNumber) / numbers[lineNumber].length;
+        //System.out.println("****MEAN****");
+        int sum = 0;
+        int count = 0;
+        for (int i = 0; i < COLUMNS; i++) {
+            sum += numbers[lineNumber][i];
+            count++;
+            //System.out.println("sum: " + sum);
+            //System.out.println("count: " + count);
+        }
+        int mean = sum / count;
+        return mean;
     }
 
     public int max(int lineNumber) {
-        int max = Integer.MIN_VALUE;
-        for (int i : numbers[lineNumber]) {
-            max = Integer.max(max, i);
+        //System.out.println("****MAX****");
+        int max = 0;
+        for (int i = 0; i < COLUMNS; i++) {
+            if (numbers[lineNumber][i] > max){
+                max = numbers[lineNumber][i];
+            }
         }
         return max;
     }
 
     public int min(int lineNumber) {
-        int min = Integer.MAX_VALUE;
-        for (int i : numbers[lineNumber]) {
-            min = Integer.min(min, i);
+        int min = 1000;
+        for (int i = 0; i < COLUMNS; i++) {
+            if (numbers[lineNumber][i] < min){
+                min = numbers[lineNumber][i];
+            }
         }
         return min;
     }
 
     public int sum(int lineNumber) {
         int sum = 0;
-        for (int i : numbers[lineNumber]) {
-            sum += i;
+        for (int i = 0; i < COLUMNS; i++) {
+            sum += numbers[lineNumber][i];
         }
-        return 0;
-    }
-
-    private int[][] converList(List<List<Integer>> arrayList) {
-        int[][] array = new int[arrayList.size()][];
-        for (int i = 0; i < arrayList.size(); i++) {
-            List<Integer> row = arrayList.get(i);
-            array[i] = new int[row.size()];
-            for (int j = 0; j < row.size(); j ++) {
-                array[i][j] = row.get(j);
-            }
-        }
-        return array;
+        return sum;
     }
 }
