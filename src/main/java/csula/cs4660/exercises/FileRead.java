@@ -16,7 +16,6 @@ public class FileRead {
      * @param file read file
      */
     public FileRead(File file) {
-        // TODO: read the file content and store content into numbers
         numbers = new int[ROWS][COLUMNS];
         try{
             FileReader fr = new FileReader(file);
@@ -31,7 +30,6 @@ public class FileRead {
                 }
                 row++;
             }
-
         }
         catch (Exception e){
             System.err.println("you fukked it");

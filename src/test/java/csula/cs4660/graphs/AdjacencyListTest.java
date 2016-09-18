@@ -107,7 +107,7 @@ public class AdjacencyListTest {
 
         // test state of graph
         assertEquals(
-            "Test graph 1 after removing node 1, node 9 should not have any neighbor",
+            "Test graph 1 after removing node 6, node 9 should not have any neighbor",
             Lists.newArrayList(),
             graph1.neighbors(new Node(9))
         );
