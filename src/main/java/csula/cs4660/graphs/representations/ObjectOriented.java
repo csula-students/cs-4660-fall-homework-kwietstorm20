@@ -7,10 +7,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Object oriented representation of graph is using OOP approach to store nodes
@@ -26,12 +23,13 @@ public class ObjectOriented implements Representation {
         try{
             FileReader fr = new FileReader(file);
             BufferedReader buffer = new BufferedReader(fr);
-            String line = null;
+            String line;
 
             nodes = new ArrayList<>();
             edges = new ArrayList<>();
 
             for (int i = 0; i < Integer.parseInt(buffer.readLine()); i++) {
+                // nodes added here
                 nodes.add(new Node(i));
             }
 
@@ -42,6 +40,7 @@ public class ObjectOriented implements Representation {
                 int weight = Integer.parseInt(values[2]);
 
                 Edge edge = new Edge(fromNode, toNode, weight);
+                // edges added here
                 edges.add(edge);
             }
 
@@ -52,17 +51,6 @@ public class ObjectOriented implements Representation {
         catch(Exception e){
             System.err.println(e.getMessage());
         }
-
-
-
-        for (Edge edge : edges) {
-            System.out.println("------ got here ------");
-            System.out.println(edge.toString());
-        }
-        System.out.println("*** END ObjectOriented ***");
-
-
-
     }
 
     public ObjectOriented() {
@@ -71,32 +59,79 @@ public class ObjectOriented implements Representation {
 
     @Override
     public boolean adjacent(Node x, Node y) {
+        Iterator<Edge> it = edges.iterator();
+        while(it.hasNext()){
+            Edge edge = it.next();
+            if (edge.getFrom().equals(x) && edge.getTo().equals(y)){
+                return true;
+            }
+        }
+
         return false;
     }
 
     @Override
     public List<Node> neighbors(Node x) {
-        return null;
+        List<Node> neighbors = new ArrayList<>();
+        Iterator<Edge> it = edges.iterator();
+        while(it.hasNext()){
+            Edge edge = it.next();
+            if (edge.getFrom().equals(x)){
+                neighbors.add(edge.getTo());
+            }
+        }
+        return neighbors;
     }
 
     @Override
     public boolean addNode(Node x) {
-        return false;
+        if (nodes.contains(x)){
+            return false;
+        }
+        else{
+            nodes.add(x);
+            return true;
+        }
     }
 
     @Override
     public boolean removeNode(Node x) {
-        return false;
+        if (!nodes.contains(x)){
+            return false;
+        }
+        else{
+            nodes.remove(x);
+            Iterator<Edge> it = edges.iterator();
+            while(it.hasNext()){
+                Edge edge = it.next();
+                if(edge.getTo() == x){
+                    edges.remove(edge);
+                }
+            }
+            return true;
+        }
     }
 
     @Override
     public boolean addEdge(Edge x) {
-        return false;
+        if (edges.contains(x)){
+            return false;
+        }
+        else{
+            edges.add(x);
+            return true;
+        }
     }
 
     @Override
     public boolean removeEdge(Edge x) {
-        return false;
+        if(!edges.contains(x)){
+            return false;
+        }
+        else{
+            edges.remove(x);
+            return true;
+        }
     }
 
     @Override

@@ -39,47 +39,19 @@ public class AdjacencyMatrix implements Representation {
                 int fromNodeData = (int) fromNode.getData();
                 int toNodeData = (int) toNode.getData();
 
-//                System.out.println("********");
-//                System.out.println("fromNode: " + fromNode.toString());
-//                System.out.println("toNode: " + toNode.toString());
-//                System.out.println("weight: " + weight);
-//                System.out.println("fromNodeData: " + fromNodeData);
-//                System.out.println("toNodeData: " + toNodeData);
-//                System.out.println("********");
-//                System.out.println();
-
                 for (int i = 0; i < nodes.length; i++) {
-                    //System.out.println("i: " + i + ", " + "fromNodeData: " + fromNodeData);
                     if (i == fromNodeData){
                         for (int j = 0; j < nodes.length; j++) {
-                            //System.out.println("j: " + j + ", " + "toNodeData: " + toNodeData);
                             if (j == toNodeData){
-                                //System.out.println("weight: " + weight);
                                 adjacencyMatrix[fromNodeData][j] = weight;
                             }
                             else{
-                                //System.out.println("0");
                                 adjacencyMatrix[fromNodeData][j] = 0;
                             }
                         }
-
                     }
                 }
             }
-
-//            for (int a = 0; a < nodes.length; a++) {
-//                System.out.print(" " + a);
-//            }
-//            System.out.println();
-
-//            for (int m = 0; m < nodes.length; m++) {
-//                //System.out.print(m + " ");
-//                for (int n = 0; n < nodes.length; n++) {
-//                    System.out.print(adjacencyMatrix[m][n]);
-//                }
-//                System.out.println();
-//            }
-
 
         }
         catch(FileNotFoundException e){
@@ -88,9 +60,6 @@ public class AdjacencyMatrix implements Representation {
         catch(Exception e){
             System.err.println(e.getMessage());
         }
-        System.out.println("*** END AdjacencyMatrix ***");
-        System.out.println();
-
     }
 
     public AdjacencyMatrix() {
